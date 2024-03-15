@@ -156,7 +156,6 @@ fun LoginScreen(viewModel: LoginViewModel) {
                     // Call login method from ViewModel with email and password
                     loginViewModel.login(email, password)
                     Log.d("hello","helloeaaeadadsad")
-
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

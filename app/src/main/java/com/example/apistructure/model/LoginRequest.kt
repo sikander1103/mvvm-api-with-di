@@ -8,7 +8,7 @@ data class LoginRequest(
 )
 
 data class LoginResponse(
-    @SerializedName("status") val status: Boolean,
+    @SerializedName("status") var status: Boolean,
     @SerializedName("data") val data: LoginData,
     @SerializedName("message") val message: String,
     @SerializedName("errors") val errors: Any? // Adjust based on your actual error structure

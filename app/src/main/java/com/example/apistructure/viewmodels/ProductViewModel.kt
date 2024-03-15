@@ -1,6 +1,5 @@
 package com.example.apistructure.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,27 +12,26 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val repository: LoginRepository) : ViewModel() {
+
     private val _loginState = MutableLiveData<DataState<LoginResponse>>()
     val loginState: LiveData<DataState<LoginResponse>> = _loginState
+
     fun login(email: String, password: String) {
         viewModelScope.launch {
+            _loginState.value = DataState.Loading
             try {
-                _loginState.value = DataState.Loading
                 val response = repository.login(LoginRequest(email, password))
                 if (response.status) {
-                    // Wrap the entire response inside DataState.Success
                     _loginState.value = DataState.Success(response)
-                    _loginState.value = DataState.Error(errorMessage = response.data.user.name ?: "Login failed")
-                    Log.d("hello22","helloeaaeadadsad")
                 } else {
-                    _loginState.value = DataState.Error(errorMessage = response.data ?: "Login failed")
-                    Log.d("hello33","helloeaaeadadsad")
+
+                    _loginState.value = DataState.Error("Login failed due to incorrect credentials.")
                 }
             } catch (e: Exception) {
-                _loginState.value = DataState.Error(errorMessage = e.message ?: "Unknown error")
-                Log.d("hello44","helloeaaeadadsad")
+                _loginState.value = DataState.Error("Login failed with exception: ${e.message}")
             }
         }
     }
