@@ -1,6 +1,6 @@
 package com.example.apistructure.data.di
 
-import com.example.apistructure.data.api.ApiServices
+import com.example.apistructure.data.api.LoginApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent :: class)
 object NetworkModule {
-private const val  BASE_URL = "https://fakestoreapi.com/"
+private const val  BASE_URL = "https://giftcard.builtinsoft.site/api/"
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit{
@@ -24,8 +24,8 @@ private const val  BASE_URL = "https://fakestoreapi.com/"
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiServices {
-        return retrofit.create(ApiServices::class.java)
+    fun provideApiService(retrofit: Retrofit): LoginApiService {
+        return retrofit.create(LoginApiService::class.java)
     }
 
 }
