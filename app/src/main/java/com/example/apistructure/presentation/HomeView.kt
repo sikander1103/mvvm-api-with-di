@@ -34,85 +34,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.example.apistructure.components.common.ShowProgressDialog
 import com.example.apistructure.exception.DataState
-import com.example.apistructure.model.ProductItem
-import com.example.apistructure.model.productlist
 import com.example.apistructure.viewmodels.LoginViewModel
 
-//@Composable
-//fun ProductListScreen(viewModel: ProductViewModel) {
-//    val productsViewModel: ProductViewModel = viewModel
-//    val products = productsViewModel.products.observeAsState()
-//    val isLoading = remember { mutableStateOf(false) }
-//
-//    LaunchedEffect(Unit) {
-//        productsViewModel.fetchProduct()
-//    }
-//
-//    Box(modifier = Modifier
-//        .fillMaxSize()
-//        .background(Color.White), contentAlignment = Alignment.Center) {
-//        products.value?.let {
-//            when (it) {
-//                is DataState.Loading -> {
-//                    isLoading.value = true
-//                    Log.d("checkstatus","${isLoading.value}")
-//
-//                }
-//
-//                is DataState.Error -> {
-//                    Text(text = "Error: ${it.errorMessage}")
-//                    isLoading.value = false
-//                }
-//
-//                is DataState.Success -> {
-//                    isLoading.value = false
-//                    ProductList(it.data)
-//
-//                }
-//            }
-//        }
-//        if (isLoading.value) {
-//            ShowProgressDialog(isLoading)
-//        }
-//    }
-//
-//}
-//
-//@Composable
-//fun ProductList(products: productlist) {
-//
-//
-//    LazyColumn(modifier = Modifier.background(Color.White)) {
-//        items(products) { product ->
-//            ProductRow(product) {
-////                navController.navigate("ProductDetail/${product.id}")
-//            }
-//        }
-//    }
-//}
-//
-//@Composable
-//fun ProductRow(product: ProductItem, onClick: () -> Unit) {
-//    Column(modifier = Modifier
-//        .padding(5.dp)
-//        .clip(RoundedCornerShape(8.dp))
-//        .fillMaxWidth()
-//        .background(Color.Gray)
-//        .padding(8.dp)
-//        .clickable(onClick = onClick)
-//    ) {
-//        Text(product.category, style = TextStyle(color = Color.Black))
-//        Text(product.rating.rate.toString(), style = TextStyle(color = Color.Black))
-//        Image(
-//            painter = rememberAsyncImagePainter(product.image),
-//            contentDescription = null,
-//            modifier = Modifier.size(100.dp)
-//        )
-//    }
-//}
+
 @Composable
 fun LoginScreen(viewModel: LoginViewModel) {
     val loginViewModel: LoginViewModel = viewModel
@@ -123,9 +49,6 @@ fun LoginScreen(viewModel: LoginViewModel) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-//    LaunchedEffect(Unit) {
-//        // This effect can be used to initiate login process on screen load
-//    }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -155,7 +78,6 @@ fun LoginScreen(viewModel: LoginViewModel) {
 
                     // Call login method from ViewModel with email and password
                     loginViewModel.login(email, password)
-                    Log.d("hello","helloeaaeadadsad")
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -167,22 +89,22 @@ fun LoginScreen(viewModel: LoginViewModel) {
         when (val state = loginState.value) {
             is DataState.Loading -> {
                 isLoading.value = true
-//                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                loginViewModel.resetLoginState()
             }
             is DataState.Success -> {
                 isLoading.value = false
                 // Navigate to next screen or perform any action on successful login
                 Toast.makeText(LocalContext.current, "${state.data.message}", Toast.LENGTH_SHORT).show()
+                loginViewModel.resetLoginState()
             }
             is DataState.Error -> {
                 isLoading.value = false
-                // Display error message
                 Toast.makeText(LocalContext.current, "${state.errorMessage}", Toast.LENGTH_SHORT).show()
+                loginViewModel.resetLoginState()
             }
 else ->{
 
 }
-//            null -> TODO()
         }
                 if (isLoading.value) {
             ShowProgressDialog(isLoading)

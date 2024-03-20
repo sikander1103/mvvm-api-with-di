@@ -16,9 +16,11 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val repository: LoginRepository) : ViewModel() {
 
-    private val _loginState = MutableLiveData<DataState<LoginResponse>>()
-    val loginState: LiveData<DataState<LoginResponse>> = _loginState
-
+    private val _loginState = MutableLiveData<DataState<LoginResponse>?>()
+    val loginState: MutableLiveData<DataState<LoginResponse>?> = _loginState
+    fun resetLoginState() {
+        _loginState.value = null // or any initial state you prefer
+    }
     fun login(email: String, password: String) {
         viewModelScope.launch {
             _loginState.value = DataState.Loading
