@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.apistructure.presentation.LoginScreen
 import com.example.apistructure.ui.theme.ApistructureTheme
-import com.example.apistructure.viewmodels.LoginViewModel
+import com.example.apistructure.presentation.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

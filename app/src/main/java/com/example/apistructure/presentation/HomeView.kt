@@ -34,19 +34,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.apistructure.components.common.ShowProgressDialog
 import com.example.apistructure.exception.DataState
-import com.example.apistructure.viewmodels.LoginViewModel
+import com.example.apistructure.presentation.viewmodels.LoginViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
-    val loginViewModel: LoginViewModel = viewModel
-    val loginState = loginViewModel.loginState.observeAsState()
+fun LoginScreen(viewModel: LoginViewModel = hiltViewModel()) {
+
+    val loginState by viewModel.loginState.observeAsState()
 
     val isLoading = remember { mutableStateOf(false) }
 
     var email by remember { mutableStateOf("") }
+
     var password by remember { mutableStateOf("") }
 
 
@@ -75,9 +78,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
-
-                    // Call login method from ViewModel with email and password
-                    loginViewModel.login(email, password)
+                    viewModel.login(email, password)
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -85,27 +86,30 @@ fun LoginScreen(viewModel: LoginViewModel) {
             }
         }
 
-        // Handle different states of login process
-        when (val state = loginState.value) {
-            is DataState.Loading -> {
-                isLoading.value = true
-                loginViewModel.resetLoginState()
-            }
-            is DataState.Success -> {
-                isLoading.value = false
-                // Navigate to next screen or perform any action on successful login
-                Toast.makeText(LocalContext.current, "${state.data.message}", Toast.LENGTH_SHORT).show()
-                loginViewModel.resetLoginState()
-            }
-            is DataState.Error -> {
-                isLoading.value = false
-                Toast.makeText(LocalContext.current, "${state.errorMessage}", Toast.LENGTH_SHORT).show()
-                loginViewModel.resetLoginState()
-            }
-else ->{
+loginState?.let {
+    when(it){
+       is DataState .Loading -> {
+           isLoading.value = true
+           viewModel.resetLoginState()
+
+
+       }
+        is DataState.Success -> {
+            isLoading.value = false
+            Toast.makeText(LocalContext.current, "${it.data.message}", Toast.LENGTH_SHORT).show()
+            viewModel.resetLoginState()
+
+        }
+        is DataState.Error -> {
+            isLoading.value = false
+            Toast.makeText(LocalContext.current, "${it.errorMessage}", Toast.LENGTH_SHORT).show()
+            viewModel.resetLoginState()
+
+        }
+    }
 
 }
-        }
+
                 if (isLoading.value) {
             ShowProgressDialog(isLoading)
         }
@@ -113,24 +117,3 @@ else ->{
 }
 
 
-private val errorToastState = mutableStateOf(false)
-private val errorMessageToastState = mutableStateOf("")
-private val errorToastInBlueState = mutableStateOf(false)
-private val errorMessageToastInBlueState = mutableStateOf("")
-fun showToast(message: String, duration: Long = 3000L) {
-    if (!errorToastState.value) {
-        errorMessageToastState.value = message
-        errorToastState.value = true
-        errorToastInBlueState.value = false
-        val timer = object : CountDownTimer(duration, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-            }
-
-            override fun onFinish() {
-                errorToastState.value = false
-//                errorMessageToastState.value = ""
-            }
-        }
-        timer.start()
-    }
-}

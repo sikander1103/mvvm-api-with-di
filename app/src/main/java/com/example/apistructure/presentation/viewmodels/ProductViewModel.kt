@@ -1,4 +1,4 @@
-package com.example.apistructure.viewmodels
+package com.example.apistructure.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,6 +28,7 @@ class LoginViewModel @Inject constructor(private val repository: LoginRepository
                 val response = repository.login(LoginRequest(email, password))
                 if (response.status) {
                     _loginState.value = DataState.Success(response)
+
                 } else {
 
                     _loginState.value = DataState.Error("Login failed due to incorrect credentials.")
@@ -37,5 +38,6 @@ class LoginViewModel @Inject constructor(private val repository: LoginRepository
             }
         }
     }
+
 }
 
