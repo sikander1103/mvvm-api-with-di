@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.apistructure.presentation.LoginScreen
 import com.example.apistructure.ui.theme.ApistructureTheme
 import com.example.apistructure.presentation.viewmodels.LoginViewModel
+import com.fiel.note.ui.presentation.navigation.AppNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +29,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    LoginScreen(productsViewModel)
+//                    LoginScreen(productsViewModel)
+                    AppNavigation()
 
                 }
             }
