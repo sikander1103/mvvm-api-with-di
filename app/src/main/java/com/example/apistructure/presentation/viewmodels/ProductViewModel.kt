@@ -11,6 +11,7 @@ import com.example.apistructure.data.repository.LoginRepository
 import com.example.apistructure.exception.DataState
 import com.example.apistructure.model.LoginRequest
 import com.example.apistructure.model.LoginResponse
+import com.example.apistructure.presentation.Keys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +38,7 @@ class LoginViewModel @Inject constructor(
                 if (response.status) {
 
                     _loginState.value = DataState.Success(response)
+                    session.put(Keys.KEY_TOKEN,response.data.token)
 
                 } else {
 

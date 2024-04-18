@@ -44,7 +44,6 @@ import kotlinx.coroutines.delay
 fun LoginScreen(navController: NavController,viewModel: LoginViewModel = hiltViewModel() ) {
 
     val loginState by viewModel.loginState.observeAsState()
-
     val isLoading = remember { mutableStateOf(false) }
 
     var email by remember { mutableStateOf("msaadamin@gmail.com") }
@@ -95,11 +94,8 @@ loginState?.let {
        }
         is DataState.Success -> {
             isLoading.value = false
-            NetworkModule.saveTokenToSharedPreferences(LocalContext.current,it.data.data.token)
             viewModel.resetLoginState()
-            navController.navigate(Screens.DetailScreen.route)
-
-
+            navController.navigate(Screens.CatogaryScreen.route)
         }
         is DataState.Error -> {
             isLoading.value = false
@@ -107,6 +103,7 @@ loginState?.let {
             viewModel.resetLoginState()
 
         }
+
     }
 
 }
@@ -118,3 +115,16 @@ loginState?.let {
 }
 
 
+object Keys {
+
+    val KEY_MAIN_INFO= "mainInformation"
+    val KEY_TOKEN = "token"
+    val KEY_USERNAME = "username"
+    val KEY_USER_DETAILS = "loginVerify"
+    val KEY_USER_PIN = "finalPin"
+    val KEY_PIN = "firstPin"
+    val KEY_ENABLE_PIN_LOGIN = "enableLoginWithPin"
+    val KEY_LOGIN_TYPE = "loginType"
+    val KEY_LOGGED_IN = "loggedIn"
+
+}

@@ -1,5 +1,6 @@
 package com.example.apistructure.data.api
 
+import com.example.apistructure.model.CatogaryModel
 import com.example.apistructure.model.Catogery
 import com.example.apistructure.model.LoginRequest
 import com.example.apistructure.model.LoginResponse
@@ -27,6 +28,14 @@ interface LoginApiService {
         @Query("search") search: String,
         @Query("categoryID") categoryID: String
     ): Catogery
+
+    @GET("categories")
+    suspend fun getcatagory(
+        @Query("page") page: String,
+        @Query("limit") limit: String,
+        @Query("search") search: String,
+
+        ): CatogaryModel
 
 }
 

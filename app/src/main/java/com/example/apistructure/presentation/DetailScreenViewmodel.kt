@@ -1,14 +1,10 @@
 package com.example.apistructure.presentation
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.apistructure.data.repository.LoginRepository
 import com.example.apistructure.exception.DataState
 import com.example.apistructure.model.Catogery
-import com.example.apistructure.model.LoginRequest
-import com.example.apistructure.model.LoginResponse
 import com.example.apistructure.model.UserProfileResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,6 +19,7 @@ class DetailScreenViewmodel @Inject constructor(
     val DetailState: MutableLiveData<DataState<UserProfileResponse>?> = _Detail
     private val _Detailnew = MutableLiveData<DataState<Catogery>?>()
     val DetailStatenew: MutableLiveData<DataState<Catogery>?> = _Detailnew
+
     fun userDetail(){
         viewModelScope.launch {
             _Detail.value = DataState.Loading
@@ -45,6 +42,7 @@ class DetailScreenViewmodel @Inject constructor(
             }
         }
     }
+
     fun userDetailss(Page:String,Limit:String,Search:String,cid :String){
         viewModelScope.launch {
             _Detailnew.value = DataState.Loading

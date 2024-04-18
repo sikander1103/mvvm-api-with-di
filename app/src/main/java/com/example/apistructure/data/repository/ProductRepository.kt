@@ -1,6 +1,7 @@
 package com.example.apistructure.data.repository
 
 import com.example.apistructure.data.api.LoginApiService
+import com.example.apistructure.model.CatogaryModel
 import com.example.apistructure.model.Catogery
 import com.example.apistructure.model.LoginRequest
 import com.example.apistructure.model.LoginResponse
@@ -18,6 +19,9 @@ suspend fun login(loginRequest: LoginRequest): LoginResponse {
 
     suspend fun getUserProfilea(page:String,limit:String,Search:String,cid:String): Catogery {
         return loginApiService.getUserProfilew(page,limit, Search,cid)
+    }
+    suspend fun getCAtogary(page:String,limit:String,Search:String): CatogaryModel {
+        return loginApiService.getcatagory(page,limit,Search)
     }
 
 }

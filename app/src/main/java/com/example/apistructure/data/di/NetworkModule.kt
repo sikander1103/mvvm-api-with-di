@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.example.apistructure.Session
 import com.example.apistructure.data.api.LoginApiService
+import com.example.apistructure.presentation.Keys
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +33,9 @@ private const val  BASE_URL = "https://giftcard.builtinsoft.site/api/"
             })
             .addInterceptor { chain ->
                 // Add token to headers if available
-                val token = getTokenFromSharedPreferences(context)
+                val token = session.get(Keys.KEY_TOKEN)
+//                val token = getTokenFromSharedPreferences(context)
+
                 val request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer $token")
                     .build()
@@ -57,16 +60,16 @@ private const val  BASE_URL = "https://giftcard.builtinsoft.site/api/"
     fun provideApiService(retrofit: Retrofit): LoginApiService {
         return retrofit.create(LoginApiService::class.java)
     }
-    private const val TOKEN_KEY = "token_key"
+//    private const val TOKEN_KEY = "token_key"
 
-    fun saveTokenToSharedPreferences(context: Context, token: String) {
-        val sharedPreferences = context.getSharedPreferences("my_app_pref", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putString(TOKEN_KEY, token).apply()
-    }
-
-    fun getTokenFromSharedPreferences(context: Context): String? {
-        val sharedPreferences = context.getSharedPreferences("my_app_pref", Context.MODE_PRIVATE)
-        return sharedPreferences.getString(TOKEN_KEY, null)
-    }
+//    fun saveTokenToSharedPreferences(context: Context, token: String) {
+//        val sharedPreferences = context.getSharedPreferences("my_app_pref", Context.MODE_PRIVATE)
+//        sharedPreferences.edit().putString(TOKEN_KEY, token).apply()
+//    }
+//
+//    fun getTokenFromSharedPreferences(context: Context): String? {
+//        val sharedPreferences = context.getSharedPreferences("my_app_pref", Context.MODE_PRIVATE)
+//        return sharedPreferences.getString(TOKEN_KEY, null)
+//    }
 
 }

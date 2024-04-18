@@ -10,7 +10,7 @@ data class Catogery (
 
 data class Data (
     val count: Long,
-    val results: List<Resultn>
+    val results: List<Resultn> ?= null,
 )
 
 data class Resultn (
